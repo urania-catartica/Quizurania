@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urania Catártica | ¿Qué herida emocional se está activando en ti?</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+
+  :root {
+    --cream: #f5f0e8;
+    --rose: #c4857a;
+    --deep: #2c1f1a;
+    --sage: #8a9e8c;
+    --gold: #c9a96e;
+    --blush: #e8d5cc;
+    --mist: #d4cfc8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    color: var(--deep);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Fondo texturizado */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(196,133,122,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(138,158,140,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse at 60% 10%, rgba(201,169,110,0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .header .eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 16px;
+  }
+
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 6vw, 52px);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--deep);
+    margin-bottom: 20px;
+  }
+
+  .header h1 em {
+    font-style: italic;
+    color: var(--rose);
+  }
+
+  .header p {
+    font-size: 15px;
+    font-weight: 300;
+    color: #5a4a42;
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .divider {
+    width: 48px;
+    height: 1px;
+    background: var(--gold);
+    margin: 24px auto;
+  }
+
+  /* PROGRESS */
+  .progress-wrap {
+    margin-bottom: 36px;
+    animation: fadeIn 0.5s ease both 0.3s;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #8a7a72;
+    margin-bottom: 8px;
+  }
+
+  .progress-bar {
+    height: 2px;
+    background: var(--mist);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--rose), var(--gold));
+    border-radius: 2px;
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* PREGUNTA */
+  .question-card {
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(196,133,122,0.2);
+    border-radius: 20px;
+    padding: 40px 36px;
+    backdrop-filter: blur(8px);
+    animation: slideUp 0.5s ease both;
+  }
+
+  .question-number {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 12px;
+  }
+
+  .question-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 4vw, 28px);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--deep);
+    margin-bottom: 32px;
+  }
+
+  /* OPCIONES */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 20px;
+    border: 1.5px solid var(--mist);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: rgba(255,255,255,0.4);
+    text-align: left;
+  }
+
+  .option:hover {
+    border-color: var(--rose);
+    background: rgba(196,133,122,0.06);
+    transform: translateX(4px);
+  }
+
+  .option.selected {
+    border-color: var(--rose);
+    background: rgba(196,133,122,0.1);
+  }
+
+  .option-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid var(--mist);
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: all 0.25s ease;
+    position: relative;
+  }
+
+  .option.selected .option-dot {
+    border-color: var(--rose);
+    background: var(--rose);
+  }
+
+  .option.selected .option-dot::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: white;
+    border-radius: 50%;
+  }
+
+  .option-text {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #3a2e29;
+  }
+
+  /* BOTÓN SIGUIENTE */
+  .btn-next {
+    display: block;
+    width: 100%;
+    margin-top: 28px;
+    padding: 16px 32px;
+    background: var(--deep);
+    color: var(--cream);
+    border: none;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .btn-next.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .btn-next:hover {
+    background: var(--rose);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(196,133,122,0.3);
+  }
+
+  /* PANTALLA DE ANÁLISIS */
+  .loading-screen {
+    text-align: center;
+    padding: 60px 20px;
+    animation: fadeIn 0.6s ease both;
+  }
+
+  .loading-orb {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 32px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, var(--blush), var(--rose));
+    animation: pulse 2s ease-in-out infinite;
+    box-shadow: 0 0 40px rgba(196,133,122,0.3);
+  }
+
+  .loading-screen h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    margin-bottom: 12px;
+    color: var(--deep);
+  }
+
+  .loading-screen p {
+    font-size: 14px;
+    color: #8a7a72;
+    font-weight: 300;
+  }
+
+  .loading-dots {
+    display: inline-flex;
+    gap: 6px;
+    margin-top: 20px;
+  }
+
+  .loading-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--rose);
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+  /* RESULTADO */
+  .result-screen {
+    animation: fadeIn 0.8s ease both;
+  }
+
+  .result-badge {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .result-badge .wound-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .result-badge .wound-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 8px;
+  }
+
+  .result-badge h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 400;
+    color: var(--deep);
+    line-height: 1.2;
+  }
+
+  .result-card {
+    background: rgba(255,255,255,0.65);
+    border: 1px solid rgba(196,133,122,0.25);
+    border-radius: 20px;
+    padding: 36px;
+    backdrop-filter: blur(8px);
+    margin-bottom: 20px;
+  }
+
+  .result-section-title {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 12px;
+  }
+
+  .result-text {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #3a2e29;
+    margin-bottom: 24px;
+  }
+
+  .result-text:last-child { margin-bottom: 0; }
+
+  .patterns-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 0;
+  }
+
+  .patterns-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 300;
+    color: #3a2e29;
+    line-height: 1.5;
+  }
+
+  .patterns-list li::before {
+    content: '✦';
+    color: var(--gold);
+    font-size: 10px;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  /* CTA */
+  .cta-card {
+    background: linear-gradient(135deg, var(--deep) 0%, #3d2a24 100%);
+    border-radius: 20px;
+    padding: 36px;
+    text-align: center;
+    color: var(--cream);
+  }
+
+  .cta-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .cta-card p {
+    font-size: 14px;
+    font-weight: 300;
+    opacity: 0.8;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .btn-cta {
+    display: inline-block;
+    padding: 14px 36px;
+    background: var(--rose);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .btn-cta:hover {
+    background: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(201,169,110,0.4);
+  }
+
+  .btn-retry {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.7);
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 8px;
+    width: 100%;
+  }
+
+  .btn-retry:hover {
+    border-color: rgba(255,255,255,0.6);
+    color: white;
+  }
+
+  /* ANIMACIONES */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(196,133,122,0.3); }
+    50% { transform: scale(1.08); box-shadow: 0 0 60px rgba(196,133,122,0.5); }
+  }
+
+  @keyframes blink {
+    0%, 80%, 100% { opacity: 0.2; }
+    40% { opacity: 1; }
+  }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 480px) {
+    .question-card { padding: 28px 20px; }
+    .result-card { padding: 24px 20px; }
+    .cta-card { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header" id="mainHeader">
+    <div class="eyebrow">Urania Catártica · Test emocional</div>
+    <h1>¿Qué herida <em>emocional</em><br>se está activando en ti?</h1>
+    <div class="divider"></div>
+    <p>Responde estas preguntas con honestidad. En pocos minutos sabrás qué patrón interno está resonando en tu situación actual.</p>
+  </div>
+
+  <!-- PROGRESO -->
+  <div class="progress-wrap hidden" id="progressWrap">
+    <div class="progress-label">
+      <span id="progressText">Pregunta 1 de 7</span>
+      <span id="progressPct">14%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width:14%"></div>
+    </div>
+  </div>
+
+  <!-- PREGUNTA -->
+  <div class="question-card hidden" id="questionCard">
+    <div class="question-number" id="qNumber">Pregunta 1</div>
+    <div class="question-text" id="qText"></div>
+    <div class="options" id="optionsContainer"></div>
+    <button class="btn-next" id="btnNext" onclick="nextQuestion()">Continuar →</button>
+  </div>
+
+  <!-- PANTALLA DE INICIO -->
+  <div id="startScreen" style="text-align:center; margin-top: 8px;">
+    <button class="btn-next visible" style="display:inline-block; width:auto; padding: 16px 48px;" onclick="startQuiz()">
+      Comenzar el test
+    </button>
+  </div>
+
+  <!-- CARGANDO -->
+  <div class="loading-screen hidden" id="loadingScreen">
+    <div class="loading-orb"></div>
+    <h2>Analizando tu situación...</h2>
+    <p>Estamos identificando los patrones emocionales<br>presentes en tus respuestas.</p>
+    <div class="loading-dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- RESULTADO -->
+  <div class="result-screen hidden" id="resultScreen"></div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    text: "Cuando tu pareja o alguien cercano se distancia o no te responde, ¿qué es lo primero que sientes?",
+    options: [
+      { text: "Pánico o angustia intensa, siento que me van a abandonar", wound: "abandono" },
+      { text: "Rabia y decepción, siento que no soy suficientemente importante", wound: "rechazo" },
+      { text: "Vergüenza, pienso que algo malo hay en mí", wound: "humillacion" },
+      { text: "Desconfianza, siento que me están ignorando a propósito", wound: "traicion" },
+      { text: "Tristeza profunda, siento que estoy sola/o ante todo", wound: "injusticia" }
+    ]
+  },
+  {
+    text: "¿Cómo reaccionas cuando sientes que tu pareja no valida lo que sientes?",
+    options: [
+      { text: "Me vuelvo más insistente, necesito que me confirmen que todo está bien", wound: "abandono" },
+      { text: "Me cierro y me alejo emocionalmente para protegerme", wound: "rechazo" },
+      { text: "Dudo de mí misma/o y termino disculpándome aunque no sea mi culpa", wound: "humillacion" },
+      { text: "Me frustro y siento que es injusto que no me escuchen", wound: "injusticia" },
+      { text: "Sospecho que no le importo realmente", wound: "traicion" }
+    ]
+  },
+  {
+    text: "¿Con qué frase te identificas más en este momento?",
+    options: [
+      { text: "\"Tengo miedo de que esta relación termine y quedarme sola/o\"", wound: "abandono" },
+      { text: "\"Nunca soy suficiente para las personas que amo\"", wound: "rechazo" },
+      { text: "\"Me siento ridícula/o o avergonzada/o de lo que estoy viviendo\"", wound: "humillacion" },
+      { text: "\"La vida no es justa y siempre me toca la peor parte\"", wound: "injusticia" },
+      { text: "\"Las personas siempre terminan fallándome o traicionándome\"", wound: "traicion" }
+    ]
+  },
+  {
+    text: "Cuando hay un conflicto con tu pareja, ¿cuál es tu reacción más frecuente?",
+    options: [
+      { text: "Busco reconciliarme rápido aunque no se haya resuelto nada real", wound: "abandono" },
+      { text: "Me retiro y dejo de comunicarme para no ser más rechazada/o", wound: "rechazo" },
+      { text: "Siento que todo es mi culpa, me critico mucho internamente", wound: "humillacion" },
+      { text: "Exploto o siento una indignación que no puedo controlar", wound: "injusticia" },
+      { text: "Desconfío de sus palabras, aunque diga que lo solucionaremos", wound: "traicion" }
+    ]
+  },
+  {
+    text: "¿Qué es lo que más te duele en este momento de tu vida emocional?",
+    options: [
+      { text: "El miedo constante a perder a la persona que amo", wound: "abandono" },
+      { text: "Sentir que no soy amada/o de verdad o que no merezco amor", wound: "rechazo" },
+      { text: "La sensación de que me han humillado o no me han respetado", wound: "humillacion" },
+      { text: "Que se han aprovechado de mi confianza o me han mentido", wound: "traicion" },
+      { text: "Que nadie reconoce mi esfuerzo y lo que doy en la relación", wound: "injusticia" }
+    ]
+  },
+  {
+    text: "¿Cómo describes tu estado emocional en este momento?",
+    options: [
+      { text: "Ansiosa/o, con el corazón acelerado y mucho miedo al futuro", wound: "abandono" },
+      { text: "Triste, vacía/o, con ganas de desaparecer o aislarme", wound: "rechazo" },
+      { text: "Avergonzada/o, pequeña/o, con la autoestima muy baja", wound: "humillacion" },
+      { text: "Furiosa/o e indignada/o, siento que nada es justo", wound: "injusticia" },
+      { text: "Desconfiada/o, a la defensiva, difícil abrirme a alguien", wound: "traicion" }
+    ]
+  },
+  {
+    text: "¿Qué patrón reconoces que se repite en tus relaciones?",
+    options: [
+      { text: "Me engancho emocionalmente muy rápido y sufro mucho cuando la relación termina", wound: "abandono" },
+      { text: "Elijo personas que no están del todo disponibles o que me rechazan", wound: "rechazo" },
+      { text: "Permito que me traten mal por miedo a no ser digna/o de algo mejor", wound: "humillacion" },
+      { text: "Las personas siempre me fallan en el momento que más las necesito", wound: "traicion" },
+      { text: "Doy mucho más de lo que recibo y termino agotada/o y resentida/o", wound: "injusticia" }
+    ]
+  }
+];
+
+const woundProfiles = {
+  abandono: {
+    icon: "🌊",
+    name: "Herida de Abandono",
+    summary: "Tu sistema nervioso está en alerta constante ante la posibilidad de perder el vínculo afectivo. Esta herida se activa cuando sientes que el amor puede desaparecer, y genera una angustia profunda que a veces te lleva a aferrarte más de lo que desearías.",
+    patterns: [
+      "Sientes pánico cuando hay silencio o distancia emocional",
+      "Buscas confirmar constantemente que la relación está bien",
+      "Temes quedarte sola/o más que cualquier otra cosa",
+      "A veces sacrificas tus necesidades para no perder la relación"
+    ],
+    message: "Esta herida tiene su origen en experiencias tempranas donde el amor fue inconsistente o se fue de forma abrupta. Sanar es posible y comienza por aprender a sostenerte emocionalmente desde adentro."
+  },
+  rechazo: {
+    icon: "🥀",
+    name: "Herida de Rechazo",
+    summary: "Llevas contigo la creencia profunda de que algo en ti no es suficiente para ser amada/o. Esta herida hace que anticipes el rechazo antes de que ocurra, y a veces tú misma/o te alejas para que no te hagan daño primero.",
+    patterns: [
+      "Sientes que no mereces amor completo o incondicional",
+      "Te aíslas cuando sientes que podrías ser rechazada/o",
+      "Buscas validación constante pero nunca parece suficiente",
+      "Te criticas severamente cuando algo sale mal en la relación"
+    ],
+    message: "El rechazo que más duele no siempre viene del otro: muchas veces viene de la voz interna que dice que no eres suficiente. En una sesión podemos trabajar esa voz juntas/os."
+  },
+  humillacion: {
+    icon: "🌑",
+    name: "Herida de Humillación",
+    summary: "Tu herida está relacionada con la vergüenza y el honor propio. Has vivido situaciones donde sentiste que te quitaron tu dignidad, y eso dejó una marca profunda en cómo te percibes y cómo permites que te traten.",
+    patterns: [
+      "Sientes vergüenza de lo que estás viviendo y te cuesta pedir ayuda",
+      "Permites situaciones que atentan contra tu dignidad",
+      "Te culpas cuando alguien te trata mal, como si lo merecieras",
+      "Tienes miedo de que si cuentas lo que vives, te juzguen"
+    ],
+    message: "Recuperar tu dignidad es el primer paso. No hay nada de lo que tengas que avergonzarte. Lo que viviste no define tu valor como persona."
+  },
+  traicion: {
+    icon: "🗡️",
+    name: "Herida de Traición",
+    summary: "Tu herida central gira alrededor de la confianza rota. Has vivido experiencias donde las personas en las que más confiabas te fallaron, y eso ha generado una armadura emocional que te protege pero también te aísla.",
+    patterns: [
+      "Te cuesta confiar aunque la otra persona no te haya fallado aún",
+      "Analizas constantemente las señales para detectar una posible traición",
+      "Cuando algo falla, confirma tu creencia de que no puedes confiar",
+      "Prefieres el control a la vulnerabilidad"
+    ],
+    message: "Aprender a confiar de nuevo es posible, pero requiere un proceso interno que no tiene que ver solo con el otro. Tu capacidad de volver a abrirte está intacta, solo necesita acompañamiento."
+  },
+  injusticia: {
+    icon: "⚖️",
+    name: "Herida de Injusticia",
+    summary: "Sientes que has dado mucho y recibido poco. Existe una sensación profunda de que la vida y las relaciones no han sido justas contigo, lo que genera agotamiento emocional, resentimiento y una exigencia interna muy alta.",
+    patterns: [
+      "Sientes que siempre das más de lo que recibes",
+      "Te cuesta pedir ayuda porque sientes que deberías poder sola/o",
+      "El resentimiento acumulado termina afectando tus vínculos",
+      "Te exiges demasiado a ti misma/o y también a los demás"
+    ],
+    message: "La injusticia que sientes es real y merece ser escuchada. Pero también hay una parte tuya que puede aprender a recibir, a pedir y a soltar el peso de cargar todo sola/o."
+  }
+};
+
+let currentQ = 0;
+let answers = [];
+let selectedOption = null;
+
+function startQuiz() {
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('progressWrap').classList.remove('hidden');
+  document.getElementById('questionCard').classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const total = questions.length;
+  const pct = Math.round(((currentQ + 1) / total) * 100);
+
+  document.getElementById('progressText').textContent = `Pregunta ${currentQ + 1} de ${total}`;
+  document.getElementById('progressPct').textContent = `${pct}%`;
+  document.getElementById('progressFill').style.width = `${pct}%`;
+
+  document.getElementById('qNumber').textContent = `Pregunta ${currentQ + 1}`;
+  document.getElementById('qText').textContent = q.text;
+
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  selectedOption = null;
+  document.getElementById('btnNext').classList.remove('visible');
+
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.innerHTML = `<div class="option-dot"></div><div class="option-text">${opt.text}</div>`;
+    div.onclick = () => selectOption(div, i);
+    container.appendChild(div);
+  });
+
+  // Reset animation
+  const card = document.getElementById('questionCard');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'slideUp 0.5s ease both';
+}
+
+function selectOption(el, index) {
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedOption = index;
+  document.getElementById('btnNext').classList.add('visible');
+}
+
+function nextQuestion() {
+  if (selectedOption === null) return;
+  answers.push(questions[currentQ].options[selectedOption].wound);
+  currentQ++;
+
+  if (currentQ >= questions.length) {
+    showLoading();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showLoading() {
+  document.getElementById('questionCard').classList.add('hidden');
+  document.getElementById('progressWrap').classList.add('hidden');
+  document.getElementById('mainHeader').classList.add('hidden');
+  document.getElementById('loadingScreen').classList.remove('hidden');
+  setTimeout(() => analyzeAndShow(), 3200);
+}
+
+function analyzeAndShow() {
+  // Contar la herida más frecuente
+  const counts = {};
+  answers.forEach(w => counts[w] = (counts[w] || 0) + 1);
+  const dominantWound = Object.entries(counts).sort((a,b) => b[1]-a[1])[0][0];
+  const profile = woundProfiles[dominantWound];
+
+  document.getElementById('loadingScreen').classList.add('hidden');
+
+  const resultEl = document.getElementById('resultScreen');
+  resultEl.innerHTML = `
+    <div class="result-badge">
+      <span class="wound-icon">${profile.icon}</span>
+      <div class="wound-label">Tu herida activada</div>
+      <h2>${profile.name}</h2>
+    </div>
+
+    <div class="result-card">
+      <div class="result-section-title">Lo que está pasando en ti</div>
+      <p class="result-text">${profile.summary}</p>
+
+      <div class="result-section-title">Patrones que probablemente reconoces</div>
+      <ul class="patterns-list">
+        ${profile.patterns.map(p => `<li>${p}</li>`).join('')}
+      </ul>
+    </div>
+
+    <div class="result-card" style="margin-bottom: 20px;">
+      <div class="result-section-title">Un mensaje para ti</div>
+      <p class="result-text" style="font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic;">"${profile.message}"</p>
+    </div>
+
+    <div class="cta-card">
+      <h3>Da el primer paso hacia tu sanación</h3>
+      <p>Este análisis es solo el comienzo. En una sesión personalizada podemos trabajar juntas/os esta herida desde la raíz, con un acompañamiento seguro y sin juicios.</p>
+      <a class="btn-cta" href="https://wa.me/5493547640399?text=Hola%20Urania%20Cat%C3%A1rtica,%20hice%20el%20test%20y%20mi%20herida%20activada%20es:%20${encodeURIComponent(profile.name)}.%20Me%20gustar%C3%ADa%20agendar%20una%20sesi%C3%B3n." target="_blank">
+        Quiero agendar mi sesión
+      </a>
+      <button class="btn-retry" onclick="restartQuiz()">Hacer el test de nuevo</button>
+    </div>
+  `;
+
+  resultEl.classList.remove('hidden');
+}
+
+function restartQuiz() {
+  currentQ = 0;
+  answers = [];
+  selectedOption = null;
+  document.getElementById('resultScreen').classList.add('hidden');
+  document.getElementById('resultScreen').innerHTML = '';
+  document.getElementById('mainHeader').classList.remove('hidden');
+  document.getElementById('progressWrap').classList.remove('hidden');
+  document.getElementById('questionCard').classList.remove('hidden');
+  renderQuestion();
+}
+</script>
+</body>
+</html>
